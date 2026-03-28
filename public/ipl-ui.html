@@ -648,6 +648,11 @@ const supabase = window.supabase.createClient(
 );
 </script> -->
 
+<!-- const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+); -->
+
 <div class="noise"></div>
 <div class="wrap">
 
@@ -705,7 +710,7 @@ const supabase = window.supabase.createClient(
 </section>
 
 <!-- STANDINGS -->
-<section class="standings-section fade-up delay-3">
+<!-- <section class="standings-section fade-up delay-3">
   <div class="section-label">Fan Vote Standings</div>
   <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
     <table class="standings-table">
@@ -721,7 +726,7 @@ const supabase = window.supabase.createClient(
       <tbody id="standings-body"></tbody>
     </table>
   </div>
-</section>
+</section> -->
 
 <footer>
   <p>IPL 2026 Fan Vote &mdash; <span>March 28 – May 31, 2026</span></p>
@@ -744,20 +749,45 @@ const TEAMS = {
   LSG:  { name: 'Lucknow Super Giants',city:'Lucknow',  abbr: 'LSG', color: '#004c97', color2: '#a4c9f0', emoji: '🔵' },
 };
 
-const MATCHES = [
-  { id: 'm1',  date: 'Mar 28', time: '7:30 PM',  venue: 'M. Chinnaswamy, Bengaluru', t1: 'RCB', t2: 'SRH', startTime: '2026-03-28T19:30:00+05:30', winner: 'SRH' },
-  { id: 'm2',  date: 'Mar 29', time: '7:30 PM',  venue: 'Wankhede, Mumbai',           t1: 'MI',  t2: 'KKR' },
-  { id: 'm3',  date: 'Mar 30', time: '7:30 PM',  venue: 'Barsapara, Guwahati',        t1: 'CSK', t2: 'RR'  },
-  { id: 'm4',  date: 'Mar 31', time: '7:30 PM',  venue: 'Mullanpur, Punjab',           t1: 'PBKS',t2: 'GT'  },
-  { id: 'm5',  date: 'Apr 01', time: '7:30 PM',  venue: 'ACA-VDCA, Visakhapatnam',    t1: 'DC',  t2: 'LSG' },
-  { id: 'm6',  date: 'Apr 02', time: '7:30 PM',  venue: 'Kolkata',                    t1: 'KKR', t2: 'SRH' },
-  { id: 'm7',  date: 'Apr 03', time: '7:30 PM',  venue: 'Chennai',                    t1: 'CSK', t2: 'PBKS'},
-  { id: 'm8',  date: 'Apr 04', time: '3:30 PM',  venue: 'Delhi',                      t1: 'MI',  t2: 'DC'  },
-  { id: 'm9',  date: 'Apr 05', time: '7:30 PM',  venue: 'Bengaluru',                  t1: 'RCB', t2: 'CSK' },
-  { id: 'm10', date: 'Apr 06', time: '7:30 PM',  venue: 'Kolkata',                    t1: 'KKR', t2: 'PBKS'},
-  { id: 'm11', date: 'Apr 07', time: '7:30 PM',  venue: 'Guwahati',                   t1: 'MI',  t2: 'RR'  },
-  { id: 'm12', date: 'Apr 08', time: '7:30 PM',  venue: 'Hyderabad',                  t1: 'SRH', t2: 'GT'  },
-];
+// const MATCHES = [
+//   { id: 'm1',  date: 'Mar 28', time: '7:30 PM',  venue: 'M. Chinnaswamy, Bengaluru', t1: 'RCB', t2: 'SRH', startTime: '2026-03-28T19:30:00+05:30', winner: 'SRH' },
+//   { id: 'm2',  date: 'Mar 29', time: '7:30 PM',  venue: 'Wankhede, Mumbai',           t1: 'MI',  t2: 'KKR' },
+//   { id: 'm3',  date: 'Mar 30', time: '7:30 PM',  venue: 'Barsapara, Guwahati',        t1: 'CSK', t2: 'RR'  },
+//   { id: 'm4',  date: 'Mar 31', time: '7:30 PM',  venue: 'Mullanpur, Punjab',           t1: 'PBKS',t2: 'GT'  },
+//   { id: 'm5',  date: 'Apr 01', time: '7:30 PM',  venue: 'ACA-VDCA, Visakhapatnam',    t1: 'DC',  t2: 'LSG' },
+//   { id: 'm6',  date: 'Apr 02', time: '7:30 PM',  venue: 'Kolkata',                    t1: 'KKR', t2: 'SRH' },
+//   { id: 'm7',  date: 'Apr 03', time: '7:30 PM',  venue: 'Chennai',                    t1: 'CSK', t2: 'PBKS'},
+//   { id: 'm8',  date: 'Apr 04', time: '3:30 PM',  venue: 'Delhi',                      t1: 'MI',  t2: 'DC'  },
+//   { id: 'm9',  date: 'Apr 05', time: '7:30 PM',  venue: 'Bengaluru',                  t1: 'RCB', t2: 'CSK' },
+//   { id: 'm10', date: 'Apr 06', time: '7:30 PM',  venue: 'Kolkata',                    t1: 'KKR', t2: 'PBKS'},
+//   { id: 'm11', date: 'Apr 07', time: '7:30 PM',  venue: 'Guwahati',                   t1: 'MI',  t2: 'RR'  },
+//   { id: 'm12', date: 'Apr 08', time: '7:30 PM',  venue: 'Hyderabad',                  t1: 'SRH', t2: 'GT'  },
+// ];
+
+async function fetchMatchesFromDB() {
+  const supabase = window.supabaseClient;
+
+  const { data, error } = await supabase
+    .from("matches")
+    .select("*")
+    .order("start_time", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    return [];
+  }
+
+  return data.map(m => ({
+    id: m.id,
+    t1: m.team1,
+    t2: m.team2,
+    startTime: m.start_time,
+    venue: m.venue,
+    winner: m.winner,
+    date: new Date(m.start_time).toDateString(),
+    time: new Date(m.start_time).toLocaleTimeString()
+  }));
+}
 
 // Load votes from localStorage
 function loadVotes() {
@@ -808,20 +838,35 @@ function closeModal() {
 }
 
 
+// function isTodayMatch(match) {
+//   const now = new Date();
+//   const matchDate = new Date(match.startTime);
+
+//   return (
+//     now.toDateString() === matchDate.toDateString()
+//   );
+// }
+
 function isTodayMatch(match) {
   const now = new Date();
+
   const matchDate = new Date(match.startTime);
 
   return (
-    now.toDateString() === matchDate.toDateString()
+    now.getFullYear() === matchDate.getFullYear() &&
+    now.getMonth() === matchDate.getMonth() &&
+    now.getDate() === matchDate.getDate()
   );
 }
+
 
 async function renderMatches() {
   const grid = document.getElementById('matches-grid');
   // const upcoming = MATCHES.filter(m => !m.today);
   const upcoming = MATCHES.filter(m => !isTodayMatch(m))
 
+  console.log("NOW:", new Date());
+  console.log("MATCH DATE:", new Date(match.startTime));
   const group = localStorage.getItem("group"); // 🔥 IMPORTANT
 
   let html = "";
@@ -1045,6 +1090,7 @@ const supabase = window.supabaseClient;
 
 // const match = MATCHES.find(m => m.id === matchId);
 const match = MATCHES.find(m => isTodayMatch(m));
+// const match = MATCHES.find(m => m.id === m.match_id);
 
 // 🔴 STEP 1 — Time restriction
 const now = new Date();
@@ -1316,6 +1362,7 @@ function pctColor(abbr) {
 async function renderToday() {
   // const match = MATCHES.find(m => m.today);
   const match = MATCHES.find(m => isTodayMatch(m));
+  // const match = MATCHES.find(m => m.id === m.match_id);
   if (!match) return;
   const t1 = TEAMS[match.t1], t2 = TEAMS[match.t2];
   const group = localStorage.getItem("group");
@@ -1666,7 +1713,17 @@ async function renderMatches() {
 //     `;
 //   }).join("");
 // }
+async function getMatchPools(matchId, group) {
+  const votes = await getVotes(matchId, group);
 
+  const totalPool =
+    Object.values(votes).reduce((a, b) => a + b, 0);
+
+  return {
+    totalPool,
+    teamPools: votes
+  };
+}
 
 async function renderLeaderboard() {
   const supabase = window.supabaseClient;
@@ -1683,11 +1740,20 @@ async function renderLeaderboard() {
 
   const userStats = {};
 
-  data.forEach(v => {
-    const match = MATCHES.find(m => m.id === v.match_id);
+  for (let match of MATCHES) {
 
-    // ❌ skip matches without result
-    if (!match || !match.winner) return;
+  if (!match.winner) continue;
+
+  // 🔥 get pool
+  const { totalPool, teamPools } =
+    await getMatchPools(match.id, group);
+
+  const winnerPool = teamPools[match.winner] || 1;
+
+  // votes for this match
+  const matchVotes = data.filter(v => v.match_id === match.id);
+
+  matchVotes.forEach(v => {
 
     if (!userStats[v.username]) {
       userStats[v.username] = {
@@ -1698,10 +1764,16 @@ async function renderLeaderboard() {
 
     userStats[v.username].invested += v.confidence;
 
+    // ✅ ZERO-SUM LOGIC
     if (v.team === match.winner) {
-      userStats[v.username].winnings += v.confidence * (v.odds || 1);
+
+      const payout =
+        (v.confidence / winnerPool) * totalPool;
+
+      userStats[v.username].winnings += payout;
     }
   });
+}
 
   const sorted = Object.entries(userStats)
     .sort((a, b) => b[1].winnings - a[1].winnings);
@@ -1986,7 +2058,7 @@ async function renderStandings() {
 async function render() {
   await renderToday();
   await renderMatches();
-  await renderStandings();
+  // await renderStandings();
   await renderLeaderboard();
 }
 
@@ -2026,7 +2098,20 @@ window.submitVote = async function() {
   closeModal();
 };
 
-render();
+async function init() {
+  console.log("Fetching matches from DB...");
+
+  const dbMatches = await fetchMatchesFromDB();
+
+  MATCHES = dbMatches;
+
+  console.log("MATCHES:", MATCHES);
+
+  render();
+  renderLeaderboard();
+}
+
+init();
 </script>
 <div id="leaderboard-section" style="margin-top:40px; padding:20px;">
   

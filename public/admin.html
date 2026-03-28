@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin - Set Winner</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+
+<body style="background:#0b0f17;color:white;font-family:sans-serif;padding:20px;">
+
+<h2>Set Match Winner 🏏</h2>
+
+<div id="matches"></div>
+
+<script>
+const supabaseClient = supabase.createClient(
+    "https://yrvaabnalradtbwelatz.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlydmFhYm5hbHJhZHRid2VsYXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MjI0NDYsImV4cCI6MjA5MDE5ODQ0Nn0.2BXk57rWqim1JCyj95V5G05LvGCkMOZeSKDf_5YDVn0"
+);
+
+async function loadMatches() {
+  const { data } = await supabaseClient
+    .from("matches")
+    .select("*")
+    .order("start_time");
+
+  const container = document.getElementById("matches");
+
+  container.innerHTML = data.map(m => `
+    <div style="
+      background:#12151c;
+      padding:15px;
+      margin-bottom:10px;
+      border-radius:10px;
+    ">
+      <div>${m.team1} vs ${m.team2}</div>
+      <div style="margin-top:10px;">
+
+        <button onclick="setWinner('${m.id}','${m.team1}')">
+          ${m.team1}
+        </button>
+
+        <button onclick="setWinner('${m.id}','${m.team2}')">
+          ${m.team2}
+        </button>
+
+      </div>
+    </div>
+  `).join("");
+}
+
+async function setWinner(matchId, team) {
+  await supabaseClient
+    .from("matches")
+    .update({ winner: team })
+    .eq("id", matchId);
+
+  alert(team + " set as winner ✅");
+  loadMatches();
+}
+
+loadMatches();
+</script>
+
+</body>
+</html>
