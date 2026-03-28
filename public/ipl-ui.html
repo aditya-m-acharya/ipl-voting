@@ -682,7 +682,7 @@ const supabase = window.supabase.createClient(
 <header>
   <div class="logo">
     <div class="logo-icon">🏏</div>
-    <div class="logo-text">IPL <span>VOTE</span></div>
+    <div class="logo-text">ACHHA <span>GAME</span></div>
   </div>
   <div class="live-badge">
     <div class="live-dot"></div>
@@ -699,7 +699,7 @@ const supabase = window.supabase.createClient(
 
 <!-- TODAY'S MATCH -->
 <section class="today-section fade-up delay-1">
-  <div class="section-label">Today's Match — March 28</div>
+  <div class="section-label">Today's Match</div>
   <div id="today-match"></div>
 </section>
 
@@ -1380,7 +1380,7 @@ async function renderToday() {
   document.getElementById('today-match').innerHTML = `
   <div class="match-card" style="border-color:rgba(245,194,66,0.15);">
     <div class="match-header">
-      <span>Match 1 — <strong>${match.date} · ${match.time} IST</strong></span>
+      <span>Match — <strong>${match.date} · ${match.time} IST</strong></span>
       <span>📍 ${match.venue}</span>
     </div>
     <div class="match-body">
