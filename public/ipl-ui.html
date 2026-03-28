@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPL 2026 — Who Will Win?</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=Teko:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #12151c;
+    --surface2: #1a1e28;
+    --border: rgba(255,255,255,0.08);
+    --gold: #f5c242;
+    --gold2: #e8a800;
+    --text: #f0f2f8;
+    --muted: #7a8099;
+    --accent: #ff5c35;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Cricket pattern bg */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(245,194,66,0.04) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(255,92,53,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .noise {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrap { position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    padding: 28px 40px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,12,16,0.8);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--gold);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+
+  .logo-text span { color: var(--gold); }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,92,53,0.12);
+    border: 1px solid rgba(255,92,53,0.3);
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    padding: 6px 14px;
+    border-radius: 100px;
+    text-transform: uppercase;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  /* HERO */
+  .hero {
+    padding: 72px 40px 56px;
+    text-align: center;
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .season-tag {
+    display: inline-block;
+    font-family: 'Teko', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    border: 1px solid rgba(245,194,66,0.3);
+    padding: 5px 16px;
+    border-radius: 4px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 10vw, 96px);
+    line-height: 0.92;
+    letter-spacing: 2px;
+    margin-bottom: 24px;
+    color: var(--text);
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--gold);
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+
+  /* TODAY MATCH */
+  .today-section {
+    padding: 0 40px 64px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Teko', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* MATCH CARD */
+  .match-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+  }
+
+  .match-card:hover { border-color: rgba(245,194,66,0.2); }
+
+  .match-header {
+    padding: 16px 28px;
+    background: var(--surface2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .match-header strong {
+    color: var(--text);
+    font-size: 13px;
+  }
+
+  .match-body {
+    padding: 36px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .team-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .team-side.right { flex-direction: column; }
+
+  .team-logo {
+    width: 86px;
+    height: 86px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    border: 2px solid;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .team-name {
+    font-family: 'Teko', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-align: center;
+    color: var(--text);
+  }
+
+  .team-city {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+    margin-top: -12px;
+  }
+
+  .vote-btn {
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    border: 1.5px solid;
+    transition: all 0.18s;
+    background: transparent;
+    text-transform: uppercase;
+  }
+
+  .vote-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .vote-btn:active { transform: scale(0.97); }
+
+  .vote-btn.voted {
+    color: #fff !important;
+    border-color: transparent !important;
+  }
+
+  .vs-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .vs-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    color: var(--border);
+    letter-spacing: 2px;
+  }
+
+  .match-time {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--surface2);
+    padding: 4px 12px;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+  }
+
+  /* VOTE BAR */
+  .vote-bar-wrap {
+    padding: 0 28px 28px;
+  }
+
+  .vote-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    margin-bottom: 8px;
+  }
+
+  .vbl-left { color: var(--muted); }
+  .vbl-right { color: var(--muted); text-align: right; }
+
+  .vbl-pct { font-weight: 600; color: var(--text); font-size: 15px; }
+
+  .vote-bar-track {
+    height: 8px;
+    background: var(--surface2);
+    border-radius: 100px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+  }
+
+  .vote-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 0.6s cubic-bezier(0.34,1.56,0.64,1);
+    background: linear-gradient(90deg, var(--t1c), var(--t1c2, var(--t1c)));
+  }
+
+  .vote-count {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+  }
+
+  /* ALL MATCHES */
+  .matches-section {
+    padding: 0 40px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .matches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+    gap: 16px;
+  }
+
+  .mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 22px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: pointer;
+  }
+
+  .mini-card:hover {
+    border-color: rgba(245,194,66,0.2);
+    transform: translateY(-2px);
+  }
+
+  .mini-header {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 14px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .mini-teams {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .mini-team {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .mini-team.right {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+
+  .mini-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    border: 1.5px solid;
+    flex-shrink: 0;
+  }
+
+  .mini-name {
+    font-family: 'Teko', sans-serif;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.1;
+  }
+
+  .mini-city { font-size: 11px; color: var(--muted); }
+
+  .mini-vs {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: var(--border);
+    flex-shrink: 0;
+  }
+
+  .mini-bar-wrap { margin-top: 14px; }
+
+  .mini-bar-track {
+    height: 5px;
+    background: var(--surface2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+
+  .mini-bar-fill {
+    height: 100%;
+    border-radius: 100px;
+    transition: width 0.5s ease;
+  }
+
+  .mini-stats {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .mini-vote-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .mini-vote-btn {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid;
+    background: transparent;
+    font-family: 'DM Sans', sans-serif;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .mini-vote-btn:hover { opacity: 0.8; transform: scale(1.02); }
+  .mini-vote-btn.voted { color: #fff !important; border-color: transparent !important; }
+
+  /* STANDINGS */
+  .standings-section {
+    padding: 0 40px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  .standings-table th {
+    font-family: 'Teko', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 10px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .standings-table th:not(:first-child):not(:nth-child(2)) { text-align: center; }
+
+  .standings-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .standings-table td:not(:first-child):not(:nth-child(2)) { text-align: center; }
+
+  .standings-table tr:last-child td { border-bottom: none; }
+
+  .standings-table tr:hover td { background: var(--surface2); }
+
+  .rank-num {
+    font-family: 'Teko', sans-serif;
+    font-size: 16px;
+    color: var(--muted);
+    width: 32px;
+  }
+
+  .standings-team {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .st-logo {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    border: 1.5px solid;
+    flex-shrink: 0;
+  }
+
+  .st-name { font-weight: 500; font-size: 14px; }
+  .st-votes { font-size: 11px; color: var(--muted); margin-top: 1px; }
+
+  .pct-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+
+
+
+  #leaderboard-section {
+    background: #12151c;
+    border-radius: 12px;
+    max-width: 420px;
+    margin: 20px auto;
+  }
+
+  #leaderboard-section table td {
+    padding: 10px;
+    border-bottom: 1px solid #1e2633;
+    text-align: center;
+  }
+
+  #leaderboard-section table tr:hover {
+    background: #1a1f2b;
+  }
+
+
+
+
+
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  footer span { color: var(--gold); }
+
+  /* TEAMS CONFIG */
+  .t-rcb { --c: #cc0000; --c2: #ffd700; }
+  .t-mi  { --c: #004ba0; --c2: #009ddc; }
+  .t-csk { --c: #f9cd1b; --c2: #ff8000; }
+  .t-kkr { --c: #3a225d; --c2: #b3972b; }
+  .t-srh { --c: #ff822a; --c2: #e4002b; }
+  .t-rr  { --c: #2d4f98; --c2: #ff69b4; }
+  .t-pbks{ --c: #aa0022; --c2: #c8a951; }
+  .t-dc  { --c: #0033a0; --c2: #ef1c25; }
+  .t-gt  { --c: #1b2030; --c2: #d4af37; }
+  .t-lsg { --c: #a4c9f0; --c2: #004c97; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    animation: fadeUp 0.5s ease forwards;
+    opacity: 0;
+  }
+
+  .delay-1 { animation-delay: 0.1s; }
+  .delay-2 { animation-delay: 0.2s; }
+  .delay-3 { animation-delay: 0.3s; }
+  .delay-4 { animation-delay: 0.4s; }
+
+  @media (max-width: 700px) {
+    header { padding: 18px 20px; }
+    .hero, .today-section, .matches-section, .standings-section { padding-left: 20px; padding-right: 20px; }
+    .match-body { grid-template-columns: 1fr auto 1fr; gap: 12px; }
+    .team-logo { width: 64px; height: 64px; font-size: 20px; }
+    .matches-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+window.supabaseClient = window.supabase.createClient(
+  "https://yrvaabnalradtbwelatz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlydmFhYm5hbHJhZHRid2VsYXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MjI0NDYsImV4cCI6MjA5MDE5ODQ0Nn0.2BXk57rWqim1JCyj95V5G05LvGCkMOZeSKDf_5YDVn0"
+);
+</script>
+<!-- <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+const supabase = window.supabase.createClient(
+  "https://yrvaabnalradtbwelatz.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlydmFhYm5hbHJhZHRid2VsYXR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MjI0NDYsImV4cCI6MjA5MDE5ODQ0Nn0.2BXk57rWqim1JCyj95V5G05LvGCkMOZeSKDf_5YDVn0"
+);
+</script> -->
+
+<div class="noise"></div>
+<div class="wrap">
+
+  <div id="voteModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;">
+
+    <div style="background:#12151c;padding:24px;border-radius:16px;width:320px;margin:100px auto;text-align:center;">
+  
+      <h3 style="margin-bottom:16px;">Join a Group 🏏</h3>
+  
+      <!-- GROUP BUTTONS -->
+      <!-- <div id="groupButtons" style="display:flex;gap:10px;justify-content:center;margin-bottom:16px;">
+        <button onclick="selectGroup('Office')">Office</button>
+        <button onclick="selectGroup('Friends')">Friends</button>
+      </div> -->
+  
+      <!-- USER INPUT -->
+      <!-- <input id="usernameInput" placeholder="Enter username" style="width:100%;padding:8px;margin-bottom:10px;" /> -->
+  
+      <input id="amountInput" type="number" placeholder="Confidence (₹)" style="width:100%;padding:8px;margin-bottom:16px;" />
+  
+      <button onclick="submitVote()" style="margin-right:10px;">Submit</button>
+      <button onclick="closeModal()">Cancel</button>
+  
+    </div>
+  </div>
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">🏏</div>
+    <div class="logo-text">IPL <span>VOTE</span></div>
+  </div>
+  <div class="live-badge">
+    <div class="live-dot"></div>
+    Season 2026
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero fade-up">
+  <div class="season-tag">TATA IPL 2026 · Season 19</div>
+  <h1>Who Will <em>Lift</em> The Trophy?</h1>
+  <p class="hero-sub">Cast your vote for every match — track real-time fan sentiment across all 10 IPL teams as the tournament unfolds.</p>
+</section>
+
+<!-- TODAY'S MATCH -->
+<section class="today-section fade-up delay-1">
+  <div class="section-label">Today's Match — March 28</div>
+  <div id="today-match"></div>
+</section>
+
+<!-- ALL MATCHES -->
+<section class="matches-section fade-up delay-2">
+  <div class="section-label">Upcoming Matches</div>
+  <div class="matches-grid" id="matches-grid"></div>
+</section>
+
+<!-- STANDINGS -->
+<section class="standings-section fade-up delay-3">
+  <div class="section-label">Fan Vote Standings</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;">
+    <table class="standings-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Team</th>
+          <th>Votes</th>
+          <th>Win %</th>
+          <th>Trend</th>
+        </tr>
+      </thead>
+      <tbody id="standings-body"></tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>IPL 2026 Fan Vote &mdash; <span>March 28 – May 31, 2026</span></p>
+  <p style="margin-top:8px;">Royal Challengers Bengaluru are defending champions 🏆</p>
+</footer>
+
+</div>
+
+<script>
+const TEAMS = {
+  RCB:  { name: 'Royal Challengers', city: 'Bengaluru', abbr: 'RCB', color: '#cc0000', color2: '#ffd700', emoji: '🔴' },
+  MI:   { name: 'Mumbai Indians',    city: 'Mumbai',    abbr: 'MI',  color: '#004ba0', color2: '#009ddc', emoji: '🔵' },
+  CSK:  { name: 'Chennai Super Kings',city:'Chennai',   abbr: 'CSK', color: '#f9cd1b', color2: '#ff8000', emoji: '🟡' },
+  KKR:  { name: 'Kolkata Knight Riders',city:'Kolkata', abbr: 'KKR', color: '#3a225d', color2: '#b3972b', emoji: '🟣' },
+  SRH:  { name: 'Sunrisers Hyderabad',city:'Hyderabad', abbr: 'SRH', color: '#ff822a', color2: '#e4002b', emoji: '🟠' },
+  RR:   { name: 'Rajasthan Royals',  city: 'Jaipur',   abbr: 'RR',  color: '#2d4f98', color2: '#ff69b4', emoji: '💙' },
+  PBKS: { name: 'Punjab Kings',      city: 'Mullanpur', abbr: 'PBKS',color: '#aa0022', color2: '#c8a951', emoji: '🔴' },
+  DC:   { name: 'Delhi Capitals',    city: 'Delhi',     abbr: 'DC',  color: '#0033a0', color2: '#ef1c25', emoji: '🔵' },
+  GT:   { name: 'Gujarat Titans',    city: 'Ahmedabad', abbr: 'GT',  color: '#d4af37', color2: '#1b2030', emoji: '⭐' },
+  LSG:  { name: 'Lucknow Super Giants',city:'Lucknow',  abbr: 'LSG', color: '#004c97', color2: '#a4c9f0', emoji: '🔵' },
+};
+
+const MATCHES = [
+  { id: 'm1',  date: 'Mar 28', time: '7:30 PM',  venue: 'M. Chinnaswamy, Bengaluru', t1: 'RCB', t2: 'SRH', startTime: '2026-03-28T19:30:00+05:30', winner: 'SRH' },
+  { id: 'm2',  date: 'Mar 29', time: '7:30 PM',  venue: 'Wankhede, Mumbai',           t1: 'MI',  t2: 'KKR' },
+  { id: 'm3',  date: 'Mar 30', time: '7:30 PM',  venue: 'Barsapara, Guwahati',        t1: 'CSK', t2: 'RR'  },
+  { id: 'm4',  date: 'Mar 31', time: '7:30 PM',  venue: 'Mullanpur, Punjab',           t1: 'PBKS',t2: 'GT'  },
+  { id: 'm5',  date: 'Apr 01', time: '7:30 PM',  venue: 'ACA-VDCA, Visakhapatnam',    t1: 'DC',  t2: 'LSG' },
+  { id: 'm6',  date: 'Apr 02', time: '7:30 PM',  venue: 'Kolkata',                    t1: 'KKR', t2: 'SRH' },
+  { id: 'm7',  date: 'Apr 03', time: '7:30 PM',  venue: 'Chennai',                    t1: 'CSK', t2: 'PBKS'},
+  { id: 'm8',  date: 'Apr 04', time: '3:30 PM',  venue: 'Delhi',                      t1: 'MI',  t2: 'DC'  },
+  { id: 'm9',  date: 'Apr 05', time: '7:30 PM',  venue: 'Bengaluru',                  t1: 'RCB', t2: 'CSK' },
+  { id: 'm10', date: 'Apr 06', time: '7:30 PM',  venue: 'Kolkata',                    t1: 'KKR', t2: 'PBKS'},
+  { id: 'm11', date: 'Apr 07', time: '7:30 PM',  venue: 'Guwahati',                   t1: 'MI',  t2: 'RR'  },
+  { id: 'm12', date: 'Apr 08', time: '7:30 PM',  venue: 'Hyderabad',                  t1: 'SRH', t2: 'GT'  },
+];
+
+// Load votes from localStorage
+function loadVotes() {
+  try { return JSON.parse(localStorage.getItem('ipl2026votes') || '{}'); } catch(e) { return {}; }
+}
+function saveVotes(v) {
+  try { localStorage.setItem('ipl2026votes', JSON.stringify(v)); } catch(e) {}
+}
+
+// Seed with some starting votes so bars look populated
+const BASE_VOTES = {
+  m1:  { RCB: 1243, SRH: 892 },
+  m2:  { MI: 1580, KKR: 1120 },
+  m3:  { CSK: 1340, RR: 960 },
+  m4:  { PBKS: 780, GT: 670 },
+  m5:  { DC: 890, LSG: 720 },
+  m6:  { KKR: 1020, SRH: 830 },
+  m7:  { CSK: 1180, PBKS: 690 },
+  m8:  { MI: 1050, DC: 870 },
+  m9:  { RCB: 1560, CSK: 1290 },
+  m10: { KKR: 910, PBKS: 740 },
+  m11: { MI: 1380, RR: 980 },
+  m12: { SRH: 820, GT: 760 },
+};
+
+let userVotes = loadVotes();
+
+// function getVotes(matchId, teamAbbr) {
+//   const base = BASE_VOTES[matchId]?.[teamAbbr] || 0;
+//   const extra = userVotes[matchId]?.[teamAbbr] || 0;
+//   return base + extra;
+// }
+
+let selectedMatch = null;
+let selectedTeam = null;
+let selectedGroup = null;
+
+function openVoteModal(matchId, team) {
+  selectedMatch = matchId;
+  selectedTeam = team;
+  selectedGroup = null;
+
+  document.getElementById("voteModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("voteModal").style.display = "none";
+}
+
+
+function isTodayMatch(match) {
+  const now = new Date();
+  const matchDate = new Date(match.startTime);
+
+  return (
+    now.toDateString() === matchDate.toDateString()
+  );
+}
+
+async function renderMatches() {
+  const grid = document.getElementById('matches-grid');
+  // const upcoming = MATCHES.filter(m => !m.today);
+  const upcoming = MATCHES.filter(m => !isTodayMatch(m))
+
+  const group = localStorage.getItem("group"); // 🔥 IMPORTANT
+
+  let html = "";
+
+  for (let idx = 0; idx < upcoming.length; idx++) {
+    const match = upcoming[idx];
+
+    const t1 = TEAMS[match.t1];
+    const t2 = TEAMS[match.t2];
+
+    // ✅ GROUP-BASED VOTES
+    const votes = await getVotes(match.id, group);
+
+    const v1 = votes[match.t1] || 0;
+    const v2 = votes[match.t2] || 0;
+
+    const total = v1 + v2 || 1;
+    const p1 = Math.round((v1 / total) * 100);
+    const p2 = 100 - p1;
+
+    // ✅ ODDS
+    const odds = calculateOdds(v1, v2);
+
+    const voted = userVotes[match.id]?.__voted;
+
+    html += `
+    <div class="mini-card" style="animation-delay:${idx * 0.04}s">
+      
+      <div class="mini-header">
+        <span>Match ${idx + 2} — ${match.date}</span>
+        <span>📍 ${match.venue}</span>
+      </div>
+
+      <div class="mini-teams">
+        <div class="mini-team">
+          ${teamLogoHTML(match.t1, 42)}
+          <div>
+            <div class="mini-name">${t1.abbr}</div>
+            <div class="mini-city">${t1.city}</div>
+
+            <!-- 🔥 ODDS -->
+            <div style="font-size:11px;color:#aaa;">
+              ${odds.t1}x
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-vs">VS</div>
+
+        <div class="mini-team right">
+          <div style="text-align:right">
+            <div class="mini-name">${t2.abbr}</div>
+            <div class="mini-city">${t2.city}</div>
+
+            <!-- 🔥 ODDS -->
+            <div style="font-size:11px;color:#aaa;">
+              ${odds.t2}x
+            </div>
+          </div>
+          ${teamLogoHTML(match.t2, 42)}
+        </div>
+      </div>
+
+      <div class="mini-bar-wrap">
+        <div class="mini-bar-track">
+          <div class="mini-bar-fill" style="width:${p1}%;background:${t1.color};"></div>
+        </div>
+
+        <div class="mini-stats">
+          <span style="color:${t1.color}">
+            ${p1}% (₹${v1.toLocaleString()})
+          </span>
+
+          <span style="color:var(--muted);font-size:10px">
+            ${match.time} IST
+          </span>
+
+          <span style="color:${t2.color}">
+            ${p2}% (₹${v2.toLocaleString()})
+          </span>
+        </div>
+      </div>
+
+      <div class="mini-vote-row">
+
+        <!-- ✅ FIXED BUTTON -->
+        <button 
+          class="mini-vote-btn ${voted === match.t1 ? 'voted' : ''}"
+          style="
+            color:${voted === match.t1 ? '#fff' : t1.color};
+            border-color:${t1.color}55;
+            ${voted === match.t1 ? `background:${t1.color};` : ''}
+          "
+          onclick="openVoteModal('${match.id}','${match.t1}')"
+        >
+          Vote ${t1.abbr}
+        </button>
+
+        <!-- ✅ FIXED BUTTON -->
+        <button 
+          class="mini-vote-btn ${voted === match.t2 ? 'voted' : ''}"
+          style="
+            color:${voted === match.t2 ? '#fff' : t2.color};
+            border-color:${t2.color}55;
+            ${voted === match.t2 ? `background:${t2.color};` : ''}
+          "
+          onclick="openVoteModal('${match.id}','${match.t2}')"
+        >
+          Vote ${t2.abbr}
+        </button>
+
+      </div>
+
+    </div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+
+// function selectGroup(group) {
+//   selectedGroup = group;
+
+//   // highlight selected
+//   document.querySelectorAll("#groupButtons button").forEach(btn => {
+//     btn.style.background = "#333";
+//   });
+
+//   event.target.style.background = "gold";
+// }
+
+// async function getVotes(matchId) {
+//   const supabase = window.supabaseClient;
+
+//   const { data, error } = await supabase
+//     .from("votes")
+//     .select("team");
+
+//   if (error) {
+//     console.error(error);
+//     return {};
+//   }
+
+//   const count = {};
+
+//   data.forEach(v => {
+//     if (!count[v.team]) count[v.team] = 0;
+//     count[v.team]++;
+//   });
+
+//   return count;
+// }
+
+
+
+
+// async function getVotes(matchId) {
+//   const supabase = window.supabaseClient;
+
+//   const { data, error } = await supabase
+//     .from("votes")
+//     .select("team, confidence")
+//     .eq("match_id", matchId);
+
+//   if (error) {
+//     console.error(error);
+//     return {};
+//   }
+
+//   const score = {};
+
+//   data.forEach(v => {
+//     if (!score[v.team]) score[v.team] = 0;
+//     score[v.team] += v.confidence || 0;
+//   });
+
+//   return score;
+// }
+
+
+async function getVotes(matchId, group) {
+  const supabase = window.supabaseClient;
+  const { data } = await supabase
+    .from("votes")
+    .select("team, confidence")
+    .eq("match_id", matchId)
+    .eq("group_name", group); // 🔥 THIS IS KEY
+
+  const score = {};
+
+  data.forEach(v => {
+    if (!score[v.team]) score[v.team] = 0;
+    score[v.team] += v.confidence || 0;
+  });
+
+  return score;
+}
+
+
+function calculateOdds(v1, v2) {
+  const total = v1 + v2 || 1;
+
+  const p1 = v1 / total;
+  const p2 = v2 / total;
+
+  // add margin (house edge)
+  const margin = 1;
+
+  return {
+    t1: (1 / p1 * margin).toFixed(2),
+    t2: (1 / p2 * margin).toFixed(2)
+  };
+}
+
+const storedUsername = localStorage.getItem("username");
+const storedGroup = localStorage.getItem("group");
+// window.vote = async function(matchId, teamAbbr) {
+window.vote = async function(matchId, teamAbbr, username, amount, group) {
+
+const supabase = window.supabaseClient;
+
+// const match = MATCHES.find(m => m.id === matchId);
+const match = MATCHES.find(m => isTodayMatch(m));
+
+// 🔴 STEP 1 — Time restriction
+const now = new Date();
+const matchStart = new Date(match.startTime);
+
+if (now >= matchStart) {
+  alert("Voting closed ⛔");
+  return;
+}
+
+const newAmount = Number(amount);
+
+if (!newAmount || newAmount <= 0) {
+  alert("Enter valid amount");
+  return;
+}
+
+// 🔥 STEP 1.5 — Calculate odds at time of vote
+const votes = await getVotes(matchId, group);
+
+const v1 = votes[match.t1] || 0;
+const v2 = votes[match.t2] || 0;
+
+const odds = calculateOdds(v1, v2);
+
+const selectedOdds =
+  teamAbbr === match.t1 ? odds.t1 : odds.t2;
+
+try {
+  // 🔍 STEP 2 — Check existing vote
+  const { data: existing, error } = await supabase
+    .from("votes")
+    .select("*")
+    .eq("match_id", matchId)
+    .eq("username", username)
+    .eq("group_name", group);
+
+  if (error) throw error;
+
+  // 🔁 STEP 3 — UPDATE FLOW
+  if (existing.length > 0) {
+    const prev = existing[0];
+    const changes = prev.changes || 0;
+    const oldAmount = prev.confidence || 0;
+
+    // ❌ If already used change → block everything
+    if (changes >= 1) {
+      alert("You can only modify once 🚫");
+      return;
+    }
+
+    // 🟢 SAME TEAM → allow only increase
+    if (prev.team === teamAbbr) {
+
+      if (newAmount > oldAmount) {
+        await supabase
+          .from("votes")
+          .update({
+            confidence: newAmount,
+            changes: 1, // 🔥 change used
+            odds: Number(selectedOdds)
+          })
+          .eq("id", prev.id);
+
+        alert("Amount increased 💰 (1 change used)");
+        render();
+        return;
+
+      } else {
+        alert("You can only increase amount 🚫");
+        return;
+      }
+    }
+
+    // 🔁 TEAM CHANGE → allowed once
+    await supabase
+      .from("votes")
+      .update({
+        team: teamAbbr,
+        confidence: newAmount,
+        changes: 1, // 🔥 change used
+        odds: Number(selectedOdds)
+      })
+      .eq("id", prev.id);
+
+    alert("Team changed 🔁 (1 change used)");
+    render();
+    return;
+  }
+
+  // 🟢 STEP 4 — FIRST TIME VOTE (INSERT)
+  await supabase.from("votes").insert([
+    {
+      match_id: matchId,
+      team: teamAbbr,
+      username: username,
+      confidence: newAmount,
+      group_name: group,
+      changes: 0,
+      odds: Number(selectedOdds)
+    }
+  ]);
+
+  alert("Vote recorded 🔥");
+  render();
+
+} catch (err) {
+  console.error(err);
+  alert("Something went wrong");
+}
+};
+
+// window.vote = async function(matchId, teamAbbr) {
+//   const supabase = window.supabaseClient;
+
+//   const match = MATCHES.find(m => m.id === matchId);
+
+//   const now = new Date();
+//   const matchStart = new Date(match.startTime);
+
+//   console.log("NOW:", now);
+//   console.log("MATCH:", matchStart);
+
+//   if (now >= matchStart) {
+//     alert("Voting closed for this match ⛔");
+//     return;
+//   }
+
+//   if (!supabase) {
+//     alert("Supabase not initialized");
+//     console.error("Supabase missing");
+//     return;
+//   }
+
+//   let username = localStorage.getItem("username");
+
+//   if (!username) {
+//     username = prompt("Enter your name");
+//     if (!username) return;
+//     localStorage.setItem("username", username);
+//   }
+
+//   const amount = prompt("How confident are you?");
+//   if (!amount) return;
+
+//   try {
+//     const { data: existing, error: err1 } = await supabase
+//       .from("votes")
+//       .select("*")
+//       .eq("match_id", matchId)
+//       .eq("username", username);
+
+//     if (err1) throw err1;
+
+//     if (existing.length > 0) {
+//       alert("You already voted!");
+//       return;
+//     }
+
+//     const { error: err2 } = await supabase.from("votes").insert([
+//       {
+//         match_id: matchId,
+//         team: teamAbbr,
+//         username: username,
+//         confidence: parseInt(amount)
+//       }
+//     ]);
+
+//     if (err2) throw err2;
+
+//     alert("Vote recorded 🔥");
+
+//     shareOnWhatsApp(teamAbbr, amount);
+//     render();
+
+//   } catch (err) {
+//     console.error(err);
+//     alert("Something broke. Check console.");
+//   }
+// };
+
+
+
+
+
+// window.vote = async function(matchId, teamAbbr) {
+//   let username = localStorage.getItem("username");
+
+//   // Step 1: Ask username (only first time)
+//   if (!username) {
+//     username = prompt("Enter your name");
+//     if (!username) return;
+//     localStorage.setItem("username", username);
+//   }
+
+//   // Step 2: Ask confidence
+//   const amount = prompt("How confident are you? (₹ or points)");
+//   if (!amount) return;
+
+//   // Step 3: Check if already voted
+//   const { data: existing, error } = await supabase
+//   .from("votes")
+//   .select("*")
+//   .eq("match_id", matchId)
+//   .eq("username", username);
+
+// if (error) {
+//   console.error("Error:", error);
+//   alert("DB error");
+//   return;
+// }
+
+//   if (existing.length > 0) {
+//     alert("You already voted for this match!");
+//     return;
+//   }
+
+//   // Step 4: Insert vote
+//   await supabase.from("votes").insert([
+//     {
+//       match_id: matchId,
+//       team: teamAbbr,
+//       username: username,
+//       confidence: parseInt(amount)
+//     }
+//   ]);
+
+//   alert("Vote recorded 🔥");
+
+  // Step 5: Share
+//   shareOnWhatsApp(teamAbbr, amount);
+
+//   render();
+// }
+
+function shareOnWhatsApp(team, amount) {
+  const text = `🔥 I voted for ${team}!
+
+Confidence: ₹${amount}
+
+Who do you think will win? 👇`;
+
+  const url = window.location.href;
+
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(text + " " + url)}`
+  );
+}
+
+function teamLogoHTML(abbr, size = 86) {
+  const t = TEAMS[abbr];
+  return `<div style="
+    width:${size}px;height:${size}px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:${t.color}18;
+    border:2px solid ${t.color}66;
+    color:${t.color};
+    font-family:'Bebas Neue',sans-serif;
+    font-size:${Math.round(size*0.3)}px;
+    letter-spacing:1px;
+    flex-shrink:0;
+    ">${abbr}</div>`;
+}
+
+function pctColor(abbr) {
+  return TEAMS[abbr].color;
+}
+
+async function renderToday() {
+  // const match = MATCHES.find(m => m.today);
+  const match = MATCHES.find(m => isTodayMatch(m));
+  if (!match) return;
+  const t1 = TEAMS[match.t1], t2 = TEAMS[match.t2];
+  const group = localStorage.getItem("group");
+
+  const votes = await getVotes(match.id, group);
+  // const votes = await getVotes(match.id);
+  const v1 = votes[match.t1] || 0;
+  const v2 = votes[match.t2] || 0;
+  const odds = calculateOdds(v1, v2);
+  const total = v1 + v2 || 1;
+  const p1 = Math.round(v1/total*100);
+  const p2 = 100 - p1;
+  const voted = userVotes[match.id]?.__voted;
+
+  document.getElementById('today-match').innerHTML = `
+  <div class="match-card" style="border-color:rgba(245,194,66,0.15);">
+    <div class="match-header">
+      <span>Match 1 — <strong>${match.date} · ${match.time} IST</strong></span>
+      <span>📍 ${match.venue}</span>
+    </div>
+    <div class="match-body">
+      <div class="team-side">
+        ${teamLogoHTML(match.t1, 86)}
+        <div class="team-name">${t1.abbr}</div>
+        <div class="team-city">${t1.city}</div>
+        <div style="font-size:12px;color:#aaa;">
+          Odds: ${odds.t1}x
+        </div>
+        <button class="vote-btn ${voted===match.t1?'voted':''}"
+          style="color:${voted===match.t1?'#fff':t1.color};border-color:${t1.color}66;
+          ${voted===match.t1?`background:${t1.color};`:''}
+          "
+          <button onclick="openVoteModal('${match.id}','${match.t1}')">
+            Vote ${t1.abbr}
+          </button>
+        </button>
+      </div>
+      <div class="vs-block">
+        <div class="vs-text">VS</div>
+        <div class="match-time">${match.time} IST</div>
+      </div>
+      <div class="team-side">
+        ${teamLogoHTML(match.t2, 86)}
+        <div class="team-name">${t2.abbr}</div>
+        <div class="team-city">${t2.city}</div>
+        <div style="font-size:12px;color:#aaa;">
+          Odds: ${odds.t2}x
+        </div>
+        <button class="vote-btn ${voted===match.t2?'voted':''}"
+          style="color:${voted===match.t2?'#fff':t2.color};border-color:${t2.color}66;
+          ${voted===match.t2?`background:${t2.color};`:''}
+          "
+          <button onclick="openVoteModal('${match.id}','${match.t2}')">
+            Vote ${t2.abbr}
+          </button>
+      </div>
+    </div>
+    <div class="vote-bar-wrap">
+      <div class="vote-bar-labels">
+        <div class="vbl-left"><span class="vbl-pct" style="color:${t1.color}">${p1}%</span> ${t1.abbr}</div>
+        <div class="vbl-right">${t2.abbr} <span class="vbl-pct" style="color:${t2.color}">${p2}%</span></div>
+      </div>
+      <div class="vote-bar-track">
+        <div class="vote-bar-fill" style="width:${p1}%;background:${t1.color};"></div>
+      </div>
+      <div class="vote-count">${(v1+v2).toLocaleString()} total votes</div>
+    </div>
+  </div>`;
+}
+
+
+
+
+// async function renderMatches() {
+//   const grid = document.getElementById('matches-grid');
+//   const upcoming = MATCHES.filter(m => !m.today);
+
+//   let html = "";
+
+//   for (let idx = 0; idx < upcoming.length; idx++) {
+//     const match = upcoming[idx];
+
+//     const t1 = TEAMS[match.t1];
+//     const t2 = TEAMS[match.t2];
+
+//     const votes = await getVotes(match.id);
+
+//     const v1 = votes[match.t1] || 0;
+//     const v2 = votes[match.t2] || 0;
+
+//     const total = v1 + v2 || 1;
+//     const p1 = Math.round(v1 / total * 100);
+//     const p2 = 100 - p1;
+
+//     const voted = userVotes[match.id]?.__voted;
+
+//     html += `
+//     <div class="mini-card" style="animation-delay:${idx*0.04}s">
+//       <div class="mini-header">
+//         <span>Match ${idx+2} — ${match.date}</span>
+//         <span>📍 ${match.venue}</span>
+//       </div>
+//       <div class="mini-teams">
+//         <div class="mini-team">
+//           ${teamLogoHTML(match.t1, 42)}
+//           <div>
+//             <div class="mini-name">${t1.abbr}</div>
+//             <div class="mini-city">${t1.city}</div>
+//           </div>
+//         </div>
+//         <div class="mini-vs">VS</div>
+//         <div class="mini-team right">
+//           <div style="text-align:right">
+//             <div class="mini-name">${t2.abbr}</div>
+//             <div class="mini-city">${t2.city}</div>
+//           </div>
+//           ${teamLogoHTML(match.t2, 42)}
+//         </div>
+//       </div>
+//       <div class="mini-bar-wrap">
+//         <div class="mini-bar-track">
+//           <div class="mini-bar-fill" style="width:${p1}%;background:${t1.color};"></div>
+//         </div>
+//         <div class="mini-stats">
+//           <span style="color:${t1.color}">${p1}% (${v1.toLocaleString()})</span>
+//           <span style="color:var(--muted);font-size:10px">${match.time} IST</span>
+//           <span style="color:${t2.color}">${p2}% (${v2.toLocaleString()})</span>
+//         </div>
+//       </div>
+//       <div class="mini-vote-row">
+//         <button class="mini-vote-btn ${voted===match.t1?'voted':''}"
+//           style="color:${voted===match.t1?'#fff':t1.color};border-color:${t1.color}55;
+//           ${voted===match.t1?`background:${t1.color};`:''}"
+//           <button onclick="openVoteModal('${match.id}','${match.t1}')">
+//             Vote ${t1.abbr}
+//           </button>
+//         </button>
+//         <button class="mini-vote-btn ${voted===match.t2?'voted':''}"
+//           style="color:${voted===match.t2?'#fff':t2.color};border-color:${t2.color}55;
+//           ${voted===match.t2?`background:${t2.color};`:''}"
+//           <button onclick="openVoteModal('${match.id}','${match.t2}')">
+//             Vote ${t2.abbr}
+//           </button>
+//         </button>
+//       </div>
+//     </div>`;
+//   }
+
+//   grid.innerHTML = html;
+// }
+
+
+
+async function renderMatches() {
+  const grid = document.getElementById('matches-grid');
+  // const upcoming = MATCHES.filter(m => !m.today);
+  const upcoming = MATCHES.filter(m => !isTodayMatch(m))
+
+  const group = localStorage.getItem("group"); // 🔥 IMPORTANT
+
+  let html = "";
+
+  for (let idx = 0; idx < upcoming.length; idx++) {
+    const match = upcoming[idx];
+
+    const t1 = TEAMS[match.t1];
+    const t2 = TEAMS[match.t2];
+
+    // ✅ GROUP-BASED VOTES
+    const votes = await getVotes(match.id, group);
+
+    const v1 = votes[match.t1] || 0;
+    const v2 = votes[match.t2] || 0;
+
+    const total = v1 + v2 || 1;
+    const p1 = Math.round((v1 / total) * 100);
+    const p2 = 100 - p1;
+
+    // ✅ ODDS
+    const odds = calculateOdds(v1, v2);
+
+    const voted = userVotes[match.id]?.__voted;
+
+    html += `
+    <div class="mini-card" style="animation-delay:${idx * 0.04}s">
+      
+      <div class="mini-header">
+        <span>Match ${idx + 2} — ${match.date}</span>
+        <span>📍 ${match.venue}</span>
+      </div>
+
+      <div class="mini-teams">
+        <div class="mini-team">
+          ${teamLogoHTML(match.t1, 42)}
+          <div>
+            <div class="mini-name">${t1.abbr}</div>
+            <div class="mini-city">${t1.city}</div>
+
+            <!-- 🔥 ODDS -->
+            <div style="font-size:11px;color:#aaa;">
+              ${odds.t1}x
+            </div>
+          </div>
+        </div>
+
+        <div class="mini-vs">VS</div>
+
+        <div class="mini-team right">
+          <div style="text-align:right">
+            <div class="mini-name">${t2.abbr}</div>
+            <div class="mini-city">${t2.city}</div>
+
+            <!-- 🔥 ODDS -->
+            <div style="font-size:11px;color:#aaa;">
+              ${odds.t2}x
+            </div>
+          </div>
+          ${teamLogoHTML(match.t2, 42)}
+        </div>
+      </div>
+
+      <div class="mini-bar-wrap">
+        <div class="mini-bar-track">
+          <div class="mini-bar-fill" style="width:${p1}%;background:${t1.color};"></div>
+        </div>
+
+        <div class="mini-stats">
+          <span style="color:${t1.color}">
+            ${p1}% (₹${v1.toLocaleString()})
+          </span>
+
+          <span style="color:var(--muted);font-size:10px">
+            ${match.time} IST
+          </span>
+
+          <span style="color:${t2.color}">
+            ${p2}% (₹${v2.toLocaleString()})
+          </span>
+        </div>
+      </div>
+
+      <div class="mini-vote-row">
+
+        <!-- ✅ FIXED BUTTON -->
+        <button 
+          class="mini-vote-btn ${voted === match.t1 ? 'voted' : ''}"
+          style="
+            color:${voted === match.t1 ? '#fff' : t1.color};
+            border-color:${t1.color}55;
+            ${voted === match.t1 ? `background:${t1.color};` : ''}
+          "
+          onclick="openVoteModal('${match.id}','${match.t1}')"
+        >
+          Vote ${t1.abbr}
+        </button>
+
+        <!-- ✅ FIXED BUTTON -->
+        <button 
+          class="mini-vote-btn ${voted === match.t2 ? 'voted' : ''}"
+          style="
+            color:${voted === match.t2 ? '#fff' : t2.color};
+            border-color:${t2.color}55;
+            ${voted === match.t2 ? `background:${t2.color};` : ''}
+          "
+          onclick="openVoteModal('${match.id}','${match.t2}')"
+        >
+          Vote ${t2.abbr}
+        </button>
+
+      </div>
+
+    </div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+
+
+
+
+
+// async function renderStandings() {
+//   const supabase = window.supabaseClient;
+
+//   const { data, error } = await supabase
+//     .from("votes")
+//     .select("team");
+
+//   if (error) {
+//     console.error(error);
+//     return;
+//   }
+
+//   const teamVotes = {};
+
+//   // initialize
+//   Object.keys(TEAMS).forEach(t => teamVotes[t] = 0);
+
+//   // count votes
+//   data.forEach(v => {
+//     if (teamVotes[v.team] !== undefined) {
+//       teamVotes[v.team]++;
+//     }
+//   });
+
+//   const totalVotes = Object.values(teamVotes).reduce((a, b) => a + b, 0) || 1;
+
+//   // sort teams by votes
+//   const sorted = Object.keys(teamVotes).sort((a, b) => teamVotes[b] - teamVotes[a]);
+
+//   document.getElementById('standings-body').innerHTML = sorted.map((abbr, i) => {
+//     const t = TEAMS[abbr];
+//     const votes = teamVotes[abbr];
+//     const pct = ((votes / totalVotes) * 100).toFixed(1);
+
+//     return `
+//       <tr>
+//         <td class="rank-num">${i + 1}</td>
+
+//         <td>
+//           <div class="standings-team">
+//             <div class="st-logo" style="background:${t.color}18;border-color:${t.color}55;color:${t.color}">
+//               ${abbr}
+//             </div>
+
+//             <div>
+//               <div class="st-name">${t.name}</div>
+//               <div class="st-votes">${votes} votes</div>
+//             </div>
+//           </div>
+//         </td>
+
+//         <td style="font-size:18px;color:${t.color}">
+//           ${votes}
+//         </td>
+
+//         <td>
+//           <span class="pct-pill" style="background:${t.color}18;color:${t.color}">
+//             ${pct}%
+//           </span>
+//         </td>
+
+//         <td style="color:${t.color};font-weight:600;">
+//           ${i < 3 ? "🔥" : i < 6 ? "↑" : "↓"}
+//         </td>
+//       </tr>
+//     `;
+//   }).join("");
+// }
+
+
+async function renderLeaderboard() {
+  const supabase = window.supabaseClient;
+  const group = localStorage.getItem("group");
+  const { data, error } = await supabase
+    .from("votes")
+    .select("*")
+    .eq("group_name", group);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const userStats = {};
+
+  data.forEach(v => {
+    const match = MATCHES.find(m => m.id === v.match_id);
+
+    // ❌ skip matches without result
+    if (!match || !match.winner) return;
+
+    if (!userStats[v.username]) {
+      userStats[v.username] = {
+        invested: 0,
+        winnings: 0
+      };
+    }
+
+    userStats[v.username].invested += v.confidence;
+
+    if (v.team === match.winner) {
+      userStats[v.username].winnings += v.confidence * (v.odds || 1);
+    }
+  });
+
+  const sorted = Object.entries(userStats)
+    .sort((a, b) => b[1].winnings - a[1].winnings);
+
+  let html = "";
+
+  sorted.forEach(([user, stats], i) => {
+    const profit = stats.winnings - stats.invested;
+
+    html += `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${user}</td>
+        <td>₹${stats.invested}</td>
+        <td>₹${Math.round(stats.winnings)}</td>
+        <td style="color:${profit >= 0 ? 'lime' : 'red'}">
+          ₹${Math.round(profit)}
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("leaderboard-body").innerHTML = html;
+}
+
+async function renderStandings() {
+  const supabase = window.supabaseClient;
+  const group = localStorage.getItem("group"); // 🔥 IMPORTANT
+
+  // ✅ Get votes for CURRENT GROUP
+  const { data, error } = await supabase
+    .from("votes")
+    .select("team, confidence")
+    .eq("group_name", group);
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const teamVotes = {};
+
+  // initialize
+  Object.keys(TEAMS).forEach(t => teamVotes[t] = 0);
+
+  // ✅ SUM confidence (not count)
+  data.forEach(v => {
+    if (teamVotes[v.team] !== undefined) {
+      teamVotes[v.team] += v.confidence || 0;
+    }
+  });
+
+  const totalVotes = Object.values(teamVotes).reduce((a, b) => a + b, 0) || 1;
+
+  const sorted = Object.keys(teamVotes).sort((a, b) => teamVotes[b] - teamVotes[a]);
+
+  let html = "";
+
+  sorted.forEach((abbr, i) => {
+    const t = TEAMS[abbr];
+    const votes = teamVotes[abbr];
+    const pct = ((votes / totalVotes) * 100).toFixed(1);
+
+    html += `
+      <tr>
+        <td class="rank-num">${i + 1}</td>
+
+        <td>
+          <div class="standings-team">
+            <div class="st-logo" style="background:${t.color}18;border-color:${t.color}55;color:${t.color}">
+              ${abbr}
+            </div>
+
+            <div>
+              <div class="st-name">${t.name}</div>
+              <div class="st-votes">₹${votes}</div>
+            </div>
+          </div>
+        </td>
+
+        <td style="font-size:18px;color:${t.color}">
+          ₹${votes}
+        </td>
+
+        <td>
+          <span class="pct-pill" style="background:${t.color}18;color:${t.color}">
+            ${pct}%
+          </span>
+        </td>
+
+        <td style="color:${t.color};font-weight:600;">
+          ${i < 3 ? "🔥" : i < 6 ? "↑" : "↓"}
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById('standings-body').innerHTML = html;
+}
+
+
+
+
+
+// // async function renderMatches() {
+//   const grid = document.getElementById('matches-grid');
+//   const upcoming = MATCHES.filter(m => !m.today);
+//   grid.innerHTML = upcoming.map((match, idx) => {
+//     const t1 = TEAMS[match.t1], t2 = TEAMS[match.t2];
+//     const votes = await getVotes(match.id);
+//     const v1 = votes[match.t1] || 0;
+//     const v2 = votes[match.t2] || 0;
+//     const total = v1 + v2 || 1;
+//     const p1 = Math.round(v1/total*100);
+//     const p2 = 100 - p1;
+//     const voted = userVotes[match.id]?.__voted;
+//     return `
+//     <div class="mini-card" style="animation-delay:${idx*0.04}s">
+//       <div class="mini-header">
+//         <span>Match ${idx+2} — ${match.date}</span>
+//         <span>📍 ${match.venue}</span>
+//       </div>
+//       <div class="mini-teams">
+//         <div class="mini-team">
+//           ${teamLogoHTML(match.t1, 42)}
+//           <div>
+//             <div class="mini-name">${t1.abbr}</div>
+//             <div class="mini-city">${t1.city}</div>
+//           </div>
+//         </div>
+//         <div class="mini-vs">VS</div>
+//         <div class="mini-team right">
+//           <div style="text-align:right">
+//             <div class="mini-name">${t2.abbr}</div>
+//             <div class="mini-city">${t2.city}</div>
+//           </div>
+//           ${teamLogoHTML(match.t2, 42)}
+//         </div>
+//       </div>
+//       <div class="mini-bar-wrap">
+//         <div class="mini-bar-track">
+//           <div class="mini-bar-fill" style="width:${p1}%;background:${t1.color};"></div>
+//         </div>
+//         <div class="mini-stats">
+//           <span style="color:${t1.color}">${p1}% (${v1.toLocaleString()})</span>
+//           <span style="color:var(--muted);font-size:10px">${match.time} IST</span>
+//           <span style="color:${t2.color}">${p2}% (${v2.toLocaleString()})</span>
+//         </div>
+//       </div>
+//       <div class="mini-vote-row">
+//         <button class="mini-vote-btn ${voted===match.t1?'voted':''}"
+//           style="color:${voted===match.t1?'#fff':t1.color};border-color:${t1.color}55;
+//           ${voted===match.t1?`background:${t1.color};`:''}"
+//           onclick="vote('${match.id}','${match.t1}')">
+//           ${voted===match.t1?'✓ '+t1.abbr:'Vote '+t1.abbr}
+//         </button>
+//         <button class="mini-vote-btn ${voted===match.t2?'voted':''}"
+//           style="color:${voted===match.t2?'#fff':t2.color};border-color:${t2.color}55;
+//           ${voted===match.t2?`background:${t2.color};`:''}"
+//           onclick="vote('${match.id}','${match.t2}')">
+//           ${voted===match.t2?'✓ '+t2.abbr:'Vote '+t2.abbr}
+//         </button>
+//       </div>
+//     </div>`;
+//   }).join('');
+// }
+
+// function renderStandings() {
+//   // Tally all votes per team
+//   const teamVotes = {};
+//   const teamWins = {};
+//   Object.keys(TEAMS).forEach(a => { teamVotes[a] = 0; teamWins[a] = 0; });
+//   MATCHES.forEach(m => {
+//     const v1 = getVotes(m.id, m.t1);
+//     const v2 = getVotes(m.id, m.t2);
+//     teamVotes[m.t1] = (teamVotes[m.t1]||0) + v1;
+//     teamVotes[m.t2] = (teamVotes[m.t2]||0) + v2;
+//     if (v1 > v2) teamWins[m.t1] = (teamWins[m.t1]||0)+1;
+//     else if (v2 > v1) teamWins[m.t2] = (teamWins[m.t2]||0)+1;
+//   });
+//   const totalAll = Object.values(teamVotes).reduce((a,b)=>a+b,0)||1;
+//   const sorted = Object.keys(TEAMS).sort((a,b)=>teamVotes[b]-teamVotes[a]);
+//   const trends = ['↑↑','↑','→','↑','↓','→','↑','↓','↓','→'];
+
+//   document.getElementById('standings-body').innerHTML = sorted.map((abbr, i) => {
+//     const t = TEAMS[abbr];
+//     const v = teamVotes[abbr];
+//     const pct = (v/totalAll*100).toFixed(1);
+//     return `<tr>
+//       <td class="rank-num">${i+1}</td>
+//       <td>
+//         <div class="standings-team">
+//           <div class="st-logo" style="background:${t.color}18;border-color:${t.color}55;color:${t.color}">${abbr}</div>
+//           <div>
+//             <div class="st-name">${t.name}</div>
+//             <div class="st-votes">${v.toLocaleString()} votes</div>
+//           </div>
+//         </div>
+//       </td>
+//       <td style="font-family:'Teko',sans-serif;font-size:18px;color:${t.color}">${v.toLocaleString()}</td>
+//       <td>
+//         <span class="pct-pill" style="background:${t.color}18;color:${t.color}">${pct}%</span>
+//       </td>
+//       <td style="color:${t.color};font-size:16px;font-weight:600;">${trends[i]}</td>
+//     </tr>`;
+//   }).join('');
+// }
+
+async function renderStandings() {
+  const supabase = window.supabaseClient;
+
+  // ✅ Get ALL votes at once
+  const { data, error } = await supabase
+    .from("votes")
+    .select("team");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  const teamVotes = {};
+
+  // initialize
+  Object.keys(TEAMS).forEach(t => teamVotes[t] = 0);
+
+  // count votes
+  data.forEach(v => {
+    if (teamVotes[v.team] !== undefined) {
+      teamVotes[v.team]++;
+    }
+  });
+
+  const totalVotes = Object.values(teamVotes).reduce((a, b) => a + b, 0) || 1;
+
+  const sorted = Object.keys(teamVotes).sort((a, b) => teamVotes[b] - teamVotes[a]);
+
+  let html = "";
+
+  sorted.forEach((abbr, i) => {
+    const t = TEAMS[abbr];
+    const votes = teamVotes[abbr];
+    const pct = ((votes / totalVotes) * 100).toFixed(1);
+
+    html += `
+      <tr>
+        <td class="rank-num">${i + 1}</td>
+
+        <td>
+          <div class="standings-team">
+            <div class="st-logo" style="background:${t.color}18;border-color:${t.color}55;color:${t.color}">
+              ${abbr}
+            </div>
+
+            <div>
+              <div class="st-name">${t.name}</div>
+              <div class="st-votes">${votes} votes</div>
+            </div>
+          </div>
+        </td>
+
+        <td style="font-size:18px;color:${t.color}">
+          ${votes}
+        </td>
+
+        <td>
+          <span class="pct-pill" style="background:${t.color}18;color:${t.color}">
+            ${pct}%
+          </span>
+        </td>
+
+        <td style="color:${t.color};font-weight:600;">
+          ${i < 3 ? "🔥" : i < 6 ? "↑" : "↓"}
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById('standings-body').innerHTML = html;
+}
+
+async function render() {
+  await renderToday();
+  await renderMatches();
+  await renderStandings();
+  await renderLeaderboard();
+}
+
+window.submitVote = async function() {
+  const supabase = window.supabaseClient;
+
+  // const username = document.getElementById("usernameInput").value;
+  const amount = document.getElementById("amountInput").value;
+
+  // if (!selectedGroup) {
+  //   alert("Select a group");
+  //   return;
+  // }
+
+  if (!amount) {
+    alert("Fill all fields");
+    return;
+  }
+
+  // // ✅ Validate user exists in group
+  // const { data: userExists } = await supabase
+  //   .from("users")
+  //   .select("*")
+  //   .eq("username", username)
+  //   .eq("group_name", selectedGroup);
+
+  // if (!userExists || userExists.length === 0) {
+  //   alert("You are not part of this group ❌");
+  //   return;
+  // }
+
+  // 👉 pass everything to vote()
+  const username = localStorage.getItem("username");
+  const selectedGroup = localStorage.getItem("group");
+  await vote(selectedMatch, selectedTeam, username, amount, selectedGroup);
+
+  closeModal();
+};
+
+render();
+</script>
+<div id="leaderboard-section" style="margin-top:40px; padding:20px;">
+  
+  <h2 style="margin-bottom:10px;">🏆 Leaderboard</h2>
+
+  <div style="overflow-x:auto;">
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr style="color:#aaa;font-size:12px;">
+          <th>#</th>
+          <th>User</th>
+          <th>Invested</th>
+          <th>Winnings</th>
+          <th>Profit</th>
+        </tr>
+      </thead>
+
+      <tbody id="leaderboard-body"></tbody>
+    </table>
+  </div>
+
+</div>
+
+
+</body>
+</html>
