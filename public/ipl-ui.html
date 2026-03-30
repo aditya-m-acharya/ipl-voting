@@ -1111,6 +1111,12 @@ if (!newAmount || newAmount <= 0) {
   return;
 }
 
+// ✅ NEW CHECK
+if (newAmount < 50) {
+  alert("Minimum bet amount should be ₹50 🚫");
+  return;
+}
+
 // 🔥 STEP 1.5 — Calculate odds at time of vote
 const votes = await getVotes(matchId, group);
 
