@@ -1522,9 +1522,14 @@ async function renderToday() {
 
 
 async function renderMatches() {
+  const today = new Date();
   const grid = document.getElementById('matches-grid');
   // const upcoming = MATCHES.filter(m => !m.today);
-  const upcoming = MATCHES.filter(m => !isTodayMatch(m))
+  // const upcoming = MATCHES.filter(m => !isTodayMatch(m))
+  const upcoming = MATCHES.filter(m => {
+  const matchDate = new Date(m.dateISO);
+  return matchDate > today;
+  });
 
   const group = localStorage.getItem("group"); // 🔥 IMPORTANT
 
