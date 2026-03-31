@@ -1112,8 +1112,8 @@ if (!newAmount || newAmount <= 0) {
 }
 
 // ✅ NEW CHECK
-if (newAmount < 50) {
-  alert("Minimum bet amount should be ₹50 🚫");
+if (newAmount < 50 or newAmount > 500) {
+  alert("Bet amount should be between ₹50 and ₹500 🚫");
   return;
 }
 
